@@ -203,7 +203,7 @@ extra_argument = sys.argv[2] if len(sys.argv) > 2 else '--okt'
 
 
 def error_message(n):
-    usage = f'\n\nUsage:\n  python3 tokenization.py --[options] --[options]\n'\
+    usage = f'\n\nUsage:\n  python3 tokenizer.py --[options] --[options]\n'\
             f'\n\nOptions:\n  --news    tokenize news content\n' \
             f'  --review    tokenize review content\n\n' \
             f'  [content type] --okt    tokenize with okt class\n' \
