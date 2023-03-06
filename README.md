@@ -19,6 +19,7 @@ $ pip install -r requirement.txt
 
 ```bash
 $ pip install konlpy
+$ pip install mecab-python
 $ pip install peewee
 $ pip install py-hanspell
 ```
