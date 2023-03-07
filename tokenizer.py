@@ -6,6 +6,8 @@ import time
 from pathlib import Path
 from typing import Optional
 
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 from hanspell import spell_checker
 from konlpy.tag import Okt, Mecab, Hannanum, Kkma
 
@@ -119,12 +121,17 @@ def get_news_from_file():
 
 
 def get_review_from_file():
-    new_data = dict()
-    opened_file = None
-    if check_exists_file('20221113.csv'):
-        opened_file = open('20221113.csv', 'r', encoding='utf-8-sig')
+    Tk().withdraw()
+    file_name: str = askopenfilename(filetypes=(('csv', '*.csv'), ('all files', '*.*')))
+    if not file_name:
+        raise FileNotFoundError({'status': f'{file_name} 을/를 찾을 수 없습니다.'})
+
+    if check_exists_file(file_name):
+        opened_file = open(file_name, 'r', encoding='utf-8-sig')
         datas = csv.reader(opened_file)
         new_data = datas
+    else:
+        raise FileNotFoundError({'status': f'{file_name} 을/를 찾을 수 없습니다.'})
 
     return new_data, opened_file
 
