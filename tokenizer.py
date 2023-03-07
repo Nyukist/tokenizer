@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import Optional
 
 from hanspell import spell_checker
-from konlpy.tag import Okt, Mecab, Hannanum
+from konlpy.tag import Okt, Mecab, Hannanum, Kkma
 
 hannanum = Hannanum()
-# kkma = Kkma()
+kkma = Kkma()
 okt = Okt()
 mecab = Mecab()
 
@@ -39,16 +39,18 @@ def tokenizer(
         '거나', '더', '다시', '찬', '막', '뽁뽁', '면서', '지난달', '뒤', '의', '끌', '또한', '여러', '뚝', '훌쩍', '진짜',
         '껑충', '다른', '중', '그다음', '통해', '스스로', '한편', '읏', '클리', '갑작스레', '다만', '다음', '과', '뿐', '달리',
         '외', '오', '류', '즉', '등등', '및', '저희', '꽉', '후', '때', '매우', '놀', '거', '디', '두', '때', '제법',
-        '제일', '쪽', '한참', '좀', '가끔', '조그만', '몇', '무슨', '별로', '한번' '혼자'
+        '제일', '쪽', '한참', '좀', '가끔', '조그만', '몇', '무슨', '별로', '한번' '혼자', '카', '키'
     ]
 
     nouns = []
     if use_class == 'mecab':
-        nouns = mecab.nouns(content)
+        nouns: list = mecab.nouns(content)
     elif use_class == 'okt':
-        nouns = okt.nouns(content)
+        nouns: list = okt.nouns(content)
     elif use_class == 'hannanum':
-        nouns = hannanum.nouns(content)
+        nouns: list = hannanum.nouns(content)
+    elif use_class == 'kkma':
+        nouns: list = kkma.nouns(content)
 
     noun_result = [noun for noun in nouns if noun not in exception_nouns]
 
@@ -154,7 +156,6 @@ def make_tokenizer(category: str, tokenizer_class: str) -> None:
     elif 'review' in category:
         print('review tokenizer')
         datas, opened_file = get_review_from_file()
-        # tokenizer_class = input('"mecab" or "okt"? : ')
         file_name = 'review_token_list.csv'
 
         if not check_exists_file(file_name):
@@ -208,7 +209,8 @@ def error_message(n):
             f'  --review    tokenize review content\n\n' \
             f'  [content type] --okt    tokenize with okt class\n' \
             f'  [content type] --mecab    tokenize with mecab class\n' \
-            f'  [content type] --hannanum    tokenize with hannanum class\n\n' \
+            f'  [content type] --hannanum    tokenize with hannanum class\n' \
+            f'  [content type] --kkma    tokenize with kkma class\n\n' \
             f'no such option: {sys.argv[n] if len(sys.argv) > n else None}'
     return usage
 
@@ -224,7 +226,7 @@ if arg_text not in ['review', 'news']:
     raise Exception(error_message(1))
 
 extra_arg_text = extra_argument.replace('--', '')
-if extra_arg_text not in ['okt', 'mecab', 'hannanum']:
+if extra_arg_text not in ['okt', 'mecab', 'hannanum', 'kkma']:
     raise Exception(error_message(2))
 
 
