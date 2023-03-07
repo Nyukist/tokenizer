@@ -138,12 +138,9 @@ def get_review_from_file():
 
 def make_tokenizer(category: str, tokenizer_class: str) -> None:
     if 'news' in category:
-        print('news tokenizer')
         datas, opened_file = get_news_from_file()
-        # tokenizer_class = input('"mecab" or "okt"? : ')
         noun_list = []
         for i, data in enumerate(datas, start=1):
-            # if i < 2:
             corrected_text: str = check_spell(data['내용'])
             noun_list += tokenizer(content=corrected_text, use_class=tokenizer_class)
             print(f'저장: [{i}]')
@@ -161,7 +158,6 @@ def make_tokenizer(category: str, tokenizer_class: str) -> None:
             write_csv([i, result], file_name)
 
     elif 'review' in category:
-        print('review tokenizer')
         datas, opened_file = get_review_from_file()
         file_name = 'review_token_list.csv'
 
@@ -169,11 +165,6 @@ def make_tokenizer(category: str, tokenizer_class: str) -> None:
             write_csv(['no', 'review_id', 'nickname', 'place_name', 'words'], file_name)
 
         for i, row in enumerate(datas, start=1):
-            if i < 188:
-                continue
-            elif i > 190:
-                break
-
             noun_list = []
             review_id = int(row[0])
             user_character = row[1]
