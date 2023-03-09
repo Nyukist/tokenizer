@@ -4,17 +4,16 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Optional
-
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from typing import Optional
+
 from hanspell import spell_checker
-from konlpy.tag import Okt, Mecab, Hannanum, Kkma
+from konlpy.tag import Okt, Hannanum, Kkma
 
 hannanum = Hannanum()
 kkma = Kkma()
 okt = Okt()
-mecab = Mecab()
 
 
 def write_csv(
@@ -48,9 +47,7 @@ def tokenizer(
     ]
 
     nouns = []
-    if use_class == 'mecab':
-        nouns: list = mecab.nouns(content)
-    elif use_class == 'okt':
+    if use_class == 'okt':
         nouns: list = okt.nouns(content)
     elif use_class == 'hannanum':
         nouns: list = hannanum.nouns(content)
@@ -209,7 +206,6 @@ def error_message(n):
             f'\n\nOptions:\n  --news    tokenize news content\n' \
             f'  --review    tokenize review content\n\n' \
             f'  [content type] --okt    tokenize with okt class\n' \
-            f'  [content type] --mecab    tokenize with mecab class\n' \
             f'  [content type] --hannanum    tokenize with hannanum class\n' \
             f'  [content type] --kkma    tokenize with kkma class\n\n' \
             f'no such option: {sys.argv[n] if len(sys.argv) > n else None}'
@@ -227,7 +223,7 @@ if arg_text not in ['review', 'news']:
     raise Exception(error_message(1))
 
 extra_arg_text = extra_argument.replace('--', '')
-if extra_arg_text not in ['okt', 'mecab', 'hannanum', 'kkma']:
+if extra_arg_text not in ['okt', 'hannanum', 'kkma']:
     raise Exception(error_message(2))
 
 
