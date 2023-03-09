@@ -1,14 +1,14 @@
+konlpy==0.6.0
+peewee==3.16.0
 certifi==2022.12.7
 charset-normalizer==3.0.1
 idna==3.4
 JPype1==1.4.1
-konlpy==0.6.0
 lxml==4.9.2
 mecab-python==1.0.0
 mecab-python3==1.0.6
 numpy==1.24.2
 packaging==23.0
-peewee==3.16.0
-py-hanspell==1.1
 requests==2.28.2
 urllib3==1.26.14
+py-hanspell==1.1
